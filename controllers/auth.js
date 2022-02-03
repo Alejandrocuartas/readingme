@@ -26,8 +26,8 @@ const authPost = async(req = request, res = response) => {
 
         const token = await jwtGenerator(user.id)
 
-        res.status(200).json({
-            token
+        res.cookie('userToken', token).status(200).json({
+            msg: 'User logged'
         })
 
     } catch (error) {

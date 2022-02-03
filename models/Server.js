@@ -1,5 +1,7 @@
 const express = require('express')
 const cors = require('cors')
+const cookieParser = require('cookie-parser')
+
 const dbConector = require('../db/server')
 
 class Server {
@@ -22,6 +24,7 @@ class Server {
         this.app.use( express.static('public') )
         this.app.use( express.json() )
         this.app.use( cors() )
+        this.app.use( cookieParser() )
     }
 
     routes(){

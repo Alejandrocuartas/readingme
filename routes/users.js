@@ -5,11 +5,13 @@ const validator = require('../middlewares/validator')
 
 const { postUser, deleteUser } = require('../controllers/users')
 const { existUsername, existUser } = require('../middlewares/dbValidators')
+const sessionHandler = require('../middlewares/sessionHandler')
 
 const router = Router()
 
 
 router.delete('/delete/:id',[
+    sessionHandler,
     param('id')
             .isMongoId().withMessage('Incorrect id')
             .custom( existUser ),
