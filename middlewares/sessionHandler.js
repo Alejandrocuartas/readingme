@@ -10,10 +10,13 @@ const sessionHandler = (req = request, res = response, next) => {
     }
     try {
         const { id } = jwt.verify(token, process.env.JWT_KEY)
-        if(id !== req.params.id){
-            return res.status(401).json({
-                msg: 'You cannot delete this user.'
-            })
+        req.writterId = id
+        if(req.route.stack[3].name !== 'postsDelete'){
+            if(id !== req.params.id){
+                return res.status(401).json({
+                    msg: 'You cannot delete this user.',
+                })
+            }
         }
         next()
     } catch (error) {

@@ -1,13 +1,29 @@
 const { Router } = require('express')
+const { body, param } = require('express-validator')
 
 const { postsGet, postsDelete, postsPost } = require('../controllers/posts')
+const validator = require('../middlewares/validator')
+const { usernameGetter, existPost } = require('../middlewares/dbValidators')
+const sessionHandler = require('../middlewares/sessionHandler')
 
 const router = Router()
 
 router.get('/', postsGet)
 
-router.post('/', postsPost)
+router.post('/create',[
+    usernameGetter,
+    body('postcomment')
+            .not().isEmpty().withMessage('The post must have one message.')
+            .isLength({ min: 5 }).withMessage('The post message must have at least 5 characters.'),
+    validator
+], postsPost)
 
-router.delete('/', postsDelete)
+router.delete('/:id',[
+    sessionHandler,
+    param('id')
+            .isMongoId().withMessage('incorrect id')
+            .custom( existPost ),
+    validator
+], postsDelete)
 
 module.exports = router
