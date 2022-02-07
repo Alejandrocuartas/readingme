@@ -28,10 +28,11 @@ class Server {
     }
 
     routes(){
-        const { postsRouter, usersRouter, authRouter } = require('../routes')
+        const { postsRouter, usersRouter, authRouter, uploadsRouter } = require('../routes')
         this.app.use('/api/posts', postsRouter)
         this.app.use('/api/users', usersRouter)
         this.app.use('/api/auth', authRouter)
+        this.app.use('/api/upload', uploadsRouter)
     }
 
     listen(){

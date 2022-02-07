@@ -20,6 +20,7 @@ const sessionHandler = (req = request, res = response, next) => {
         }
         next()
     } catch (error) {
+        console.log(error)
         return res.status(401).json({
             msg: 'Unvalid user token',
             error: error.message
