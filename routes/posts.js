@@ -19,7 +19,7 @@ router.post('/create',[
 ], postsPost)
 
 router.delete('/:id',[
-    sessionHandler,
+    sessionHandler('postsDelete'),
     param('id')
             .isMongoId().withMessage('incorrect id')
             .custom( existPost ),
