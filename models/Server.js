@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
+const fileUpload = require('express-fileupload')
 
 const dbConector = require('../db/server')
 
@@ -25,6 +26,10 @@ class Server {
         this.app.use( express.json() )
         this.app.use( cors() )
         this.app.use( cookieParser() )
+        this.app.use(fileUpload({
+            useTempFiles : true,
+            tempFileDir : '/tmp/'
+        }));
     }
 
     routes(){
