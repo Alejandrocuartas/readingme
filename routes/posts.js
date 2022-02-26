@@ -5,12 +5,14 @@ const { postsGet, postsDelete, postsPost } = require('../controllers/posts')
 const validator = require('../middlewares/validator')
 const { usernameGetter, existPost } = require('../middlewares/dbValidators')
 const sessionHandler = require('../middlewares/sessionHandler')
+const fileExtensionValidator = require('../middlewares/fileValidator')
 
 const router = Router()
 
 router.get('/', postsGet)
 
 router.post('/create',[
+    fileExtensionValidator,
     usernameGetter,
     body('postcomment')
             .not().isEmpty().withMessage('The post must have one message.')

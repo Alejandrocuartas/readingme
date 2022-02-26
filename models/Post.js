@@ -10,7 +10,7 @@ const postSchema = Schema({
         description: [true, 'The description of the post is required']
     },
     image: {
-        type: Buffer
+        type: String
     },
     writter: {
         type: Schema.Types.ObjectId,
@@ -18,5 +18,10 @@ const postSchema = Schema({
         required: true
     }
 })
+
+postSchema.methods.toJSON = function() {
+   const { __v, ...rest } = this.toObject()
+   return rest
+}
 
 module.exports = model('post', postSchema)
