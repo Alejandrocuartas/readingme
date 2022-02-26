@@ -1,5 +1,8 @@
 const { request, response } = require('express')
 const Post = require('../models/Post')
+const cloudinary = require('cloudinary').v2
+
+cloudinary.config( process.env.CLOUDINARY_URL )
 
 const postsGet = async(req = request, res = response) => {
     try {
@@ -15,9 +18,15 @@ const postsGet = async(req = request, res = response) => {
 }
 
 const postsPost = async(req = request, res = response) => {
+    let urlImage = ''
     try {
-        const { username, postcomment, image = '', writter } = req.body
-        const newPost = new Post({ username, postcomment, image, writter})
+        if(req.files.postFile.name){
+            const { tempFilePath } = req.files.postFile
+            const { secure_url } = await cloudinary.uploader.upload( tempFilePath )
+            urlImage = secure_url
+        }
+        const { username, postcomment, writter } = req.body
+        const newPost = new Post({ username, postcomment, image: urlImage , writter})
         await newPost.save()
         res.status(200).json({
             msg: 'Post saved.'

@@ -1,6 +1,8 @@
 const { request, response } = require('express')
 const path = require('path')
+const cloudinary = require('cloudinary').v2
 
+cloudinary.config( process.env.CLOUDINARY_URL )
 
 const postFile = async(req = request, res = response) => {
 
@@ -13,7 +15,7 @@ const postFile = async(req = request, res = response) => {
         )
     }
   
-    console.log('req.files >>>', req.files) // eslint-disable-line
+    //console.log('req.files >>>', req.files) // eslint-disable-line
   
     postFile = req.files.postFile
 
@@ -24,15 +26,31 @@ const postFile = async(req = request, res = response) => {
             msg: 'The file must be a jgp file'
         })
     }
-    uploadPath = path.join(__dirname, '../uploads/', postFile.name)
+
+    const { tempFilePath } = req.files.postFile
+
+
+    try {
+      const newAsset = await cloudinary.uploader.upload( tempFilePath )
+      console.log(newAsset)
+      res.status(200).json({
+        msg: 'file uploaded correctly.'
+      })
+    } catch (error) {
+      console.log(error)
+      res.status(400).json({
+        msg: 'Could not upload file'
+      })
+    }
+
+    //uploadPath = path.join(__dirname, '../uploads/', postFile.name)
   
-    postFile.mv(uploadPath, function(err) {
-      if (err) {
-        return res.status(500).json({err})
-      }
-  
-      res.status(200).json({msg: 'File uploaded to ' + uploadPath})
-    })
+    //postFile.mv(uploadPath, function(err) {
+    //  if (err) {
+    //    return res.status(500).json({err})
+    //  }
+    //  res.status(200).json({msg: 'File uploaded to ' + uploadPath})
+    //})
   
 
 }

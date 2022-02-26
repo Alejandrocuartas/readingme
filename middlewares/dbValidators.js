@@ -22,7 +22,7 @@ const usernameGetter = async(req = request, res = response, next) => {
     try {
         const { userToken } = req.cookies
         const { id } = jwt.verify(userToken, process.env.JWT_KEY)
-        const { username } = await User.findOne({ id })
+        const { username } = await User.findById(id)
         req.body.username = username
         req.body.writter = id
         next()
