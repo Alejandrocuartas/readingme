@@ -2,7 +2,6 @@ const { request, response } = require('express')
 const bcrypt = require('bcryptjs')
 
 const User = require('../models/User')
-const req = require('express/lib/request')
 
 const postUserGetter = async(req = request, res = response) => {
     try {
