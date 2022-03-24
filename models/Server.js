@@ -24,7 +24,10 @@ class Server {
     middlewares(){
         this.app.use( express.static('public') )
         this.app.use( express.json() )
-        this.app.use( cors() )
+        this.app.use( cors({
+            origin: 'http://localhost:8081',
+            credentials: true
+        }) )
         this.app.use( cookieParser() )
         this.app.use(fileUpload({
             useTempFiles : true,

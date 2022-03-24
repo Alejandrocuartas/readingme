@@ -27,7 +27,6 @@ const usernameGetter = async(req = request, res = response, next) => {
         req.body.writter = id
         next()
     } catch (error) {
-        console.log(error)
         res.status(401).json({
             msg: 'Could not create the post. A common reason is you are not logged in.'
         })
