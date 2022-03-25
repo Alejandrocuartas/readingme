@@ -25,7 +25,7 @@ class Server {
         this.app.use( express.static('public') )
         this.app.use( express.json() )
         this.app.use( cors({
-            origin: 'https://readingme-alejo.netlify.app',
+            origin: ['https://readingme-alejo.netlify.app', 'http://localhost:8080'],
             credentials: true
         }) )
         this.app.use( cookieParser() )
