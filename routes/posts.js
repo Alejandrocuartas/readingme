@@ -12,7 +12,7 @@ const router = Router()
 router.get('/', postsGet)
 
 router.post('/create',[
-    fileExtensionValidator,
+//    fileExtensionValidator,
     usernameGetter,
     body('postcomment')
             .not().isEmpty().withMessage('The post must have one message.')
