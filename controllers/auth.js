@@ -27,9 +27,13 @@ const authPost = async(req = request, res = response) => {
 
         const token = await jwtGenerator(user.id)
 
-        res.header('Access-Control-Allow-Credentials', true).header('access-control-expose-headers', 'Set-Cookie').cookie('userToken', token).status(200).json({
+        res.header('Access-Control-Allow-Credentials', true)
+            .header('access-control-expose-headers', 'Set-Cookie')
+            .cookie('userToken', token, {sameSite:'none', secure: true})
+            .status(200)
+            .json({
             msg: 'User logged'
-        })
+            })
 
     } catch (error) {
         console.log(error)
